@@ -3,15 +3,18 @@ import type {Information} from "~/types/types";
 export function useInformation() {
     const information = reactive<Information>({
         destination: '',
-        duration: 7,
-        travelDate: '',
+        travelDate: {
+            start: '',
+            end: ''
+        },
         activities: [] as string[]
     })
 
     const isComplete = computed(() =>
         information.destination !== '' &&
-        information.duration > 0 &&
-        information.travelDate !== ''
+        information.travelDate.start !== undefined &&
+        information.travelDate.end !== undefined &&
+        information.activities.length > 0
     )
 
     const setInformation = (data: Information) => {
@@ -20,8 +23,10 @@ export function useInformation() {
 
     const resetInformation = () => {
         information.destination = ''
-        information.duration = 7
-        information.travelDate = ''
+        information.travelDate = {
+            start: '',
+            end: ''
+        }
         information.activities = []
         localStorage.removeItem('travelInfo')
     }

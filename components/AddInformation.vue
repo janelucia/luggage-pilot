@@ -7,53 +7,44 @@
       </p>
     </div>
 
-    <div class="card w-full max-w-xl shadow-lg bg-base-100">
-      <div class="card-body space-y-4">
-        <div class="card-body space-y-6"> <!-- vorher: space-y-4 -->
-          <div class="form-control">
-            <label class="label mb-2">
-              <span class="label-text font-semibold">🌍 Wohin geht die Reise?</span>
-            </label>
-            <input v-model="information.destination" type="text" class="input input-bordered" placeholder="z. B. Norwegen" />
-          </div>
+    <div class="w-full max-w-xl space-y-6">
+      <div class="form-control">
+        <label class="label mb-2">
+          <span class="label-text font-semibold">🌍 Wohin geht die Reise?</span>
+        </label>
+        <input v-model="information.destination" type="text" class="input input-bordered w-full" placeholder="z. B. Norwegen" />
+      </div>
 
-          <div class="form-control">
-            <label class="label mb-2">
-              <span class="label-text font-semibold">📅 Wie viele Tage bleibst du?</span>
-            </label>
-            <input v-model.number="information.duration" type="number" min="1" class="input input-bordered" placeholder="Tage" />
-          </div>
-
-          <div class="form-control">
-            <label class="label mb-2">
-              <span class="label-text font-semibold">🗓️ Reisedatum</span>
-            </label>
-            <input v-model="information.travelDate" type="date" class="input input-bordered" />
-          </div>
-
-          <div class="form-control">
-            <label class="label mb-2">
-              <span class="label-text font-semibold">🏞️ Was wirst du dort machen?</span>
-            </label>
-            <div class="flex flex-wrap gap-2">
-              <label
-                  v-for="option in activityOptions"
-                  :key="option"
-                  class="btn btn-sm btn-outline"
-              >
-                <input type="checkbox" v-model="information.activities" :value="option" class="hidden" />
-                <span :class="{ 'font-bold underline': information.activities.includes(option) }">
-          {{ option }}
-        </span>
-              </label>
-            </div>
-          </div>
+      <div class="form-control">
+        <label class="label mb-2">
+          <span class="label-text font-semibold">🗓️ Reisezeitraum</span>
+        </label>
+        <div class="flex flex-row gap-2">
+          <input v-model="information.travelDate.start" type="date" class="input input-bordered w-full" />
+          <input v-model="information.travelDate.end" type="date" class="input input-bordered w-full" />
         </div>
+      </div>
 
-
-        <div class="pt-4">
-          <button class="btn btn-primary w-full" @click="goToPackList">Packliste generieren</button>
+      <div class="form-control">
+        <label class="label mb-2">
+          <span class="label-text font-semibold">🏞️ Was wirst du dort machen?</span>
+        </label>
+        <div class="flex flex-wrap gap-2">
+          <label
+              v-for="option in activityOptions"
+              :key="option"
+              class="btn btn-sm btn-outline"
+          >
+            <input type="checkbox" v-model="information.activities" :value="option" class="hidden" />
+            <span :class="{ 'font-bold underline': information.activities.includes(option) }">
+              {{ option }}
+            </span>
+          </label>
         </div>
+      </div>
+
+      <div class="pt-4">
+        <button class="btn btn-primary w-full" @click="goToPackList">Packliste generieren</button>
       </div>
     </div>
   </div>
@@ -77,9 +68,8 @@ const activityOptions = [
   'Relaxen'
 ]
 
-
 const goToPackList = () => {
-  if (!information.destination || !information.duration || !information.travelDate) {
+  if (!information.destination || !information.travelDate.start || !information.travelDate.end || information.activities.length === 0) {
     alert('Bitte fülle alle Pflichtfelder aus.')
     return
   }
@@ -87,9 +77,7 @@ const goToPackList = () => {
   emit('generated')
 }
 
-
 onMounted(() => {
   resetInformation()
 })
-
 </script>

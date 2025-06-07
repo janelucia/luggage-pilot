@@ -1,6 +1,8 @@
 export type Information = {
     destination: string;
-    duration: number;
-    travelDate: string;
+    travelDate: {
+        start: string;
+        end: string;
+    }
     activities: string[];
 }
